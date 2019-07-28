@@ -8,6 +8,10 @@
    (and the MoLib library at https://github.com/mooreatv/MoLib)
 
    Releases detail/changes are on https://github.com/mooreatv/BetterVendorPrice/releases
+
+   Intial concept inspired by "Vendor Price" by Icesythe77 with a brand new implementation
+   and different individual, current stack, full stack pricing information
+
    ]] --
 --
 -- our name, our empty default (and unused) anonymous ns
@@ -19,7 +23,7 @@ local BVP = _G[addon]
 BVP.L = BVP:GetLocalization()
 local L = BVP.L
 
-BVP.debug = 9 -- to debug before saved variables are loaded
+-- BVP.debug = 9 -- to debug before saved variables are loaded
 
 BVP.EventHdlrs = {
 
@@ -91,57 +95,15 @@ function BVP.Slash(arg) -- can't be a : because used directly as slash command
   if not (posRest == nil) then
     rest = string.sub(arg, posRest + 1)
   end
-  if cmd == "s" then
-    -- show
-    BVP:ShowGrid()
-  elseif cmd == "h" then
-    BVP:HideGrid()
-  elseif cmd == "t" then
-    BVP:ToggleGrid()
-  elseif cmd == "i" then
-    local sec = 8
-    BVP:PrintDefault("BetterVendorPrice showing display (debug) info for % seconds", sec)
-    BVP:ShowDisplayInfo(sec)
-  elseif cmd == "v" then
+  if cmd == "v" then
     -- version
     BVP:PrintDefault("BetterVendorPrice " .. BVP.manifestVersion ..
                        " (@project-abbreviated-hash@) by MooreaTv (moorea@ymail.com)")
-  elseif BVP:StartsWith(arg, "coord") then
-    if BVP.coordinateShown then
-      BVP:PrintDefault("BetterVendorPrice coordinates update OFF, keeping visible for a few seconds.")
-      BVP:HideCoordinates()
-    else
-      BVP:PrintDefault("BetterVendorPrice coordinates ON.")
-      BVP:ShowCoordinates(true)
-    end
   elseif cmd == "c" then
     -- Show config panel
     -- InterfaceOptionsList_DisplayPanel(BVP.optionsPanel)
     InterfaceOptionsFrame:Show() -- onshow will clear the category if not already displayed
     InterfaceOptionsFrame_OpenToCategory(BVP.optionsPanel) -- gets our name selected
-  elseif cmd == "e" then
-    -- copied from BetterVendorPrice, as augment on event trace
-    UIParentLoadAddOn("Blizzard_DebugTools")
-    -- hook our code, only once/if there are no other hooks
-    if EventTraceFrame:GetScript("OnShow") == EventTraceFrame_OnShow then
-      EventTraceFrame:HookScript("OnShow", function()
-        EventTraceFrame.ignoredEvents = BVP:CloneTable(BVP.etraceIgnored)
-        BVP:PrintDefault("Restored ignored etrace events: %", BVP.etraceIgnored)
-      end)
-    else
-      BVP:Debug(3, "EventTraceFrame:OnShow already hooked, hopefully to ours")
-    end
-    -- save or anything starting with s that isn't the start/stop commands of actual eventtrace
-    if BVP:StartsWith(rest, "s") and rest ~= "start" and rest ~= "stop" then
-      BVP:SetSaved("etraceIgnored", BVP:CloneTable(EventTraceFrame.ignoredEvents))
-      BVP:PrintDefault("Saved ignored etrace events: %", BVP.etraceIgnored)
-    elseif BVP:StartsWith(rest, "c") then
-      EventTraceFrame.ignoredEvents = {}
-      BVP:PrintDefault("Cleared the current event filters")
-    else -- leave the other sub commands unchanged, like start/stop and n
-      BVP:Debug("Calling  EventTraceFrame_HandleSlashCmd(%)", rest)
-      EventTraceFrame_HandleSlashCmd(rest)
-    end
   elseif BVP:StartsWith(arg, "debug") then
     -- debug
     if rest == "on" then
@@ -161,9 +123,9 @@ end
 
 -- Slash
 
-SlashCmdList["PixelPerfectAlign_Slash_Command"] = BVP.Slash
+SlashCmdList["BetterVendorPrice_Slash_Command"] = BVP.Slash
 
-SLASH_PixelPerfectAlign_Slash_Command1 = "/bvp"
+SLASH_BetterVendorPrice_Slash_Command1 = "/bvp"
 
 -- Events handling
 BVP.frame = CreateFrame("Frame")
@@ -251,6 +213,45 @@ function BVP:CreateOptionsPanel()
   -- Add the panel to the Interface Options
   InterfaceOptions_AddCategory(BVP.optionsPanel)
 end
+
+function BVP.ToolTipHook(t)
+  local name, link = t:GetItem()
+  if not link then
+    BVP:Debug(1, "No item link for %", name)
+    return
+  end
+  local _, _, _, _, _, _, _, itemStackCount, _, _, itemSellPrice = GetItemInfo(link)
+  BVP:Debug(2, "Item % indiv sell price % stack size % (%)", name, itemSellPrice, itemStackCount, link)
+  if not itemSellPrice or itemSellPrice <= 0 then
+    BVP:Debug(1, "Bad/no price for % (%): %", name, link, itemSellPrice)
+    return
+  end
+  if itemStackCount > 1 then
+    local c = GetMouseFocus()
+    if not c then
+      error("nil GetMouseFocus()")
+    end
+    BVP:Debug("Mouse focus is on % % % %", c:GetName(), c:GetObjectType(), c.count, c.Count)
+    local count = c.count or (c.Count and c.Count:GetText())
+    count = tonumber(count) or 1
+    if count <= 1 then
+      count = 1
+    end
+    local curValue = count * itemSellPrice
+    local maxValue = itemStackCount * itemSellPrice
+    SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], string.format(L[" (per item)"], count))
+    if count > 1 and count ~= itemStackCount then
+      SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"], string.format(L[" (current stack of %d)"], count))
+    end
+    SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"], string.format(L[" (full stack of %d)"], itemStackCount))
+  else
+    SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (item doesn't stack)"])
+  end
+  return true
+end
+
+GameTooltip:HookScript("OnTooltipSetItem", BVP.ToolTipHook)
+ItemRefTooltip:HookScript("OnTooltipSetItem", BVP.ToolTipHook)
 
 --
 BVP:Debug("bvp main file loaded")

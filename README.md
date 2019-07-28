@@ -3,6 +3,8 @@
 # Better Vendor Price
 Better Vendor Price WoW addon
 
+<img src="https://raw.githubusercontent.com/mooreatv/BetterVendorPrice/master/sample.png">
+
 Shows per full stack prices and more...
 
 Sometimes the regular vendor price isn't enough to decide what to keep and what to discard: 
@@ -15,7 +17,7 @@ But if one stacks in 20 and the other in 5 or 10, the calculation changes !
 
 Unless you are a math wiz and can do all that in your head (and if you know the stacking size), you can use this addon to guide you! (and if a math wiz, it'll tell you the stacking size too)
 
-Works for WoW Classic
+Works for both BfA and WoW Classic (where it's even more useful given lack of default vendor price)
 
 Get the binary release using curse/twitch client or on wowinterface
 
