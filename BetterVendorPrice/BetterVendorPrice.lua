@@ -152,11 +152,6 @@ function BVP:CreateOptionsPanel()
 
   p:addText(L["Development, troubleshooting and advanced options:"]):Place(40, 20)
 
-  p:addButton(L["Reset minimap button"], L["Resets the minimap button to back to initial default location"], function()
-    BVP:SetSaved("buttonPos", nil)
-    BVP:SetupMenu()
-  end):Place(4, 20)
-
   local debugLevel = p:addSlider(L["Debug level"], L["Sets the debug level"] .. "\n|cFF99E5FF/bvp debug X|r", 0, 9, 1,
                                  "Off"):Place(16, 30)
 
