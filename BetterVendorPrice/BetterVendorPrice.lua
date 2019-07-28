@@ -212,11 +212,11 @@ end
 function BVP.ToolTipHook(t)
   local name, link = t:GetItem()
   if not link then
-    BVP:Debug(1, "No item link for %", name)
+    BVP:Debug(1, "No item link for % on %", name, t:GetName())
     return
   end
   local _, _, _, _, _, _, _, itemStackCount, _, _, itemSellPrice = GetItemInfo(link)
-  BVP:Debug(2, "Item % indiv sell price % stack size % (%)", name, itemSellPrice, itemStackCount, link)
+  BVP:Debug(2, "% Item % indiv sell price % stack size % (%)", t:GetName(), name, itemSellPrice, itemStackCount, link)
   if not itemSellPrice or itemSellPrice <= 0 then
     BVP:Debug(1, "Bad/no price for % (%): %", name, link, itemSellPrice)
     return
@@ -226,8 +226,10 @@ function BVP.ToolTipHook(t)
     if not c then
       error("nil GetMouseFocus()")
     end
-    BVP:Debug("Mouse focus is on % % % %", c:GetName(), c:GetObjectType(), c.count, c.Count)
-    local count = c.count or (c.Count and c.Count:GetText())
+    BVP:Debug(3, "Mouse focus is on % % % %", c:GetName(), c:GetObjectType(), c.count, c.Count)
+    -- This my finding to make it work for AH listings for instance
+    local bn = c:GetName() .. "Count"
+    local count = c.count or (c.Count and c.Count:GetText()) or (_G[bn] and _G[bn]:GetText())
     count = tonumber(count) or 1
     if count <= 1 then
       count = 1
@@ -242,6 +244,7 @@ function BVP.ToolTipHook(t)
   else
     SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (item doesn't stack)"])
   end
+  BVP:Debug(2, "t is % : %", t:GetName(), t.numMoneyFrames)
   return true
 end
 
