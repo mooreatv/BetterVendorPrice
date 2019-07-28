@@ -5,8 +5,11 @@ Better Vendor Price WoW addon
 
 <img src="https://raw.githubusercontent.com/mooreatv/BetterVendorPrice/master/sample.png">
 
-Shows per full stack prices and more...
+Shows per individual, current stack and full stack prices.
 
+Works anywhere including bags, vendors, item links in chat and the Auction House.
+
+## Background/Why is it useful?
 Sometimes the regular vendor price isn't enough to decide what to keep and what to discard: 
 
 For instance imagine you have 4 something that sell for 12s and 2 of something else for for 8s and both are dropping right now
@@ -15,8 +18,9 @@ Well assuming they both stack in 5 max, you should get rid of the 4 as you can g
  
 But if one stacks in 20 and the other in 5 or 10, the calculation changes !
 
-Unless you are a math wiz and can do all that in your head (and if you know the stacking size), you can use this addon to guide you! (and if a math wiz, it'll tell you the stacking size too)
+Unless you are a math wiz and can do all that in your head (and if you know the stacking size), you can use this addon to guide you! (and if a math wiz, it'll tell you the stacking size too which you can't know otherwise)
 
+## More info
 Works for both BfA and WoW Classic (where it's even more useful given lack of default vendor price)
 
 Get the binary release using curse/twitch client or on wowinterface
