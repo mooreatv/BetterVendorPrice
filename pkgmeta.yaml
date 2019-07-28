@@ -3,6 +3,8 @@ package-as: BetterVendorPrice
 ignore:
     - installbvp.bat
     - luaformat.cfg
+    - BetterVendorPrice.png
+    - sample.png
     - MoLib/installmolib.bat
     - MoLib/MoLib.toc
     - MoLib/luaformat.cfg
