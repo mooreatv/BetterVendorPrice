@@ -228,8 +228,8 @@ function BVP.ToolTipHook(t)
     end
     BVP:Debug(3, "Mouse focus is on % % % %", c:GetName(), c:GetObjectType(), c.count, c.Count)
     -- This my finding to make it work for AH listings for instance
-    local bn = c:GetName() .. "Count"
-    local count = c.count or (c.Count and c.Count:GetText()) or (_G[bn] and _G[bn]:GetText())
+    local bn = c:GetName() and (c:GetName() .. "Count")
+    local count = c.count or (c.Count and c.Count:GetText()) or (bn and _G[bn] and _G[bn]:GetText())
     count = tonumber(count) or 1
     if count <= 1 then
       count = 1
