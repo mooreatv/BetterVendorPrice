@@ -1,4 +1,4 @@
-## Interface: 11320
+## Interface: 80200
 ## Title: Better Vendor Price
 ## Notes: Better Vendor Price with stack price information (|cFF99E5FF/bvp config|r)
 ## Author: MooreaTV moorea@ymail.com
