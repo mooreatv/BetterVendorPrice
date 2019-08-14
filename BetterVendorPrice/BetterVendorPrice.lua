@@ -25,7 +25,6 @@ local L = BVP.L
 
 -- BVP.debug = 9 -- to debug before saved variables are loaded
 
-
 BVP.EventHdlrs = {
 
   PLAYER_ENTERING_WORLD = function(_self, ...)
@@ -51,37 +50,15 @@ BVP.EventHdlrs = {
     betterVendorPriceSaved.addonHash = "@project-abbreviated-hash@"
     BVP:deepmerge(BVP, nil, betterVendorPriceSaved)
     BVP:Debug(3, "Merged in saved variables.")
+    BVP.savedVar = betterVendorPriceSaved -- by ref, for SetSaved,...
   end
 }
 
-function BVP:OnEvent(event, first, ...)
-  BVP:Debug(8, "OnEvent called for % e=% %", self:GetName(), event, first)
-  local handler = BVP.EventHdlrs[event]
-  if handler then
-    return handler(self, event, first, ...)
-  end
-  BVP:Error("Unexpected event without handler %", event)
-end
-
 function BVP:Help(msg)
-  BVP:PrintDefault("BetterVendorPrice: " .. msg .. "\n" .. "/bvp config -- open addon config\n" ..
+  BVP:PrintDefault("BetterVendorPrice: " .. msg .. "\n" .. "/bvp config -- open addon config.\n" ..
+                     "/bvp bug -- report a bug or issue.\n" ..
                      "/bvp debug on/off/level -- for debugging on at level or off.\n" ..
-                     "/bvp version -- shows addon version")
-end
-
--- returns 1 if changed, 0 if same as live value
--- number instead of boolean so we can add them in handleOk
--- (saved var isn't checked/always set)
-function BVP:SetSaved(name, value)
-  local changed = (value ~= self[name])
-  self[name] = value
-  betterVendorPriceSaved[name] = value
-  BVP:Debug(8, "(Saved) Setting % set to % - betterVendorPriceSaved=%", name, value, betterVendorPriceSaved)
-  if changed then
-    return 1
-  else
-    return 0
-  end
+                     "/bvp version -- shows addon version.")
 end
 
 function BVP.Slash(arg) -- can't be a : because used directly as slash command
@@ -100,6 +77,11 @@ function BVP.Slash(arg) -- can't be a : because used directly as slash command
     -- version
     BVP:PrintDefault("BetterVendorPrice " .. BVP.manifestVersion ..
                        " (@project-abbreviated-hash@) by MooreaTv (moorea@ymail.com)")
+  elseif cmd == "b" then
+    local subText = L["Please submit on discord or on https://|cFF99E5FFbit.ly/vendorbug|r  or email"]
+    BVP:PrintDefault(L["Better Vendor Price bug report open: "] .. subText)
+    -- base molib will add version and date/timne
+    BVP:BugReport(subText, "@project-abbreviated-hash@\n\n" .. L["Bug report from slash command"])
   elseif cmd == "c" then
     -- Show config panel
     -- InterfaceOptionsList_DisplayPanel(BVP.optionsPanel)
@@ -129,12 +111,7 @@ SlashCmdList["BetterVendorPrice_Slash_Command"] = BVP.Slash
 SLASH_BetterVendorPrice_Slash_Command1 = "/bvp"
 
 -- Events handling
-BVP.frame = CreateFrame("Frame")
-
-BVP.frame:SetScript("OnEvent", BVP.OnEvent)
-for k, _ in pairs(BVP.EventHdlrs) do
-  BVP.frame:RegisterEvent(k)
-end
+BVP:RegisterEventHandlers()
 
 -- Options panel
 
@@ -152,6 +129,8 @@ function BVP:CreateOptionsPanel()
               " @project-abbreviated-hash@"):Place()
 
   p:addText(L["Development, troubleshooting and advanced options:"]):Place(40, 20)
+
+  p:addButton("Bug Report", L["Get Information to submit a bug."] .. "\n|cFF99E5FF/bvp bug|r", "bug"):Place(4, 20)
 
   local debugLevel = p:addSlider(L["Debug level"], L["Sets the debug level"] .. "\n|cFF99E5FF/bvp debug X|r", 0, 9, 1,
                                  "Off"):Place(16, 30)
