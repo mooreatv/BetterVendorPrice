@@ -25,34 +25,24 @@ local L = BVP.L
 
 -- BVP.debug = 9 -- to debug before saved variables are loaded
 
-BVP.EventHdlrs = {
+BVP.slashCmdName = "bvp"
+BVP.addonHash = "@project-abbreviated-hash@"
+BVP.savedVarName = "betterVendorPriceSaved"
+
+-- Events handling
+
+local additionalEventHandlers = {
 
   PLAYER_ENTERING_WORLD = function(_self, ...)
     BVP:Debug("OnPlayerEnteringWorld " .. BVP:Dump(...))
     BVP:CreateOptionsPanel()
-  end,
-
-  ADDON_LOADED = function(_self, _event, name)
-    BVP:Debug(9, "Addon % loaded", name)
-    if name ~= addon then
-      return -- not us, return
-    end
-    -- check for dev version (need to split the tags or they get substituted)
-    if BVP.manifestVersion == "@" .. "project-version" .. "@" then
-      BVP.manifestVersion = "vX.YY.ZZ"
-    end
-    BVP:PrintDefault("BetterVendorPrice " .. BVP.manifestVersion .. " by MooreaTv: type /bvp for command list/help.")
-    if betterVendorPriceSaved == nil then
-      BVP:Debug("Initialized empty saved vars")
-      betterVendorPriceSaved = {}
-    end
-    betterVendorPriceSaved.addonVersion = BVP.manifestVersion
-    betterVendorPriceSaved.addonHash = "@project-abbreviated-hash@"
-    BVP:deepmerge(BVP, nil, betterVendorPriceSaved)
-    BVP:Debug(3, "Merged in saved variables.")
-    BVP.savedVar = betterVendorPriceSaved -- by ref, for SetSaved,...
   end
+
 }
+
+BVP:RegisterEventHandlers(additionalEventHandlers)
+
+--
 
 function BVP:Help(msg)
   BVP:PrintDefault("BetterVendorPrice: " .. msg .. "\n" .. "/bvp config -- open addon config.\n" ..
@@ -109,9 +99,6 @@ end
 SlashCmdList["BetterVendorPrice_Slash_Command"] = BVP.Slash
 
 SLASH_BetterVendorPrice_Slash_Command1 = "/bvp"
-
--- Events handling
-BVP:RegisterEventHandlers()
 
 -- Options panel
 
