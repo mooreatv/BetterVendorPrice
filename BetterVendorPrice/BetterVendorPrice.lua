@@ -109,9 +109,9 @@ function BVP:CreateOptionsPanel()
   end
   BVP:Debug("Creating Options Panel")
 
-  local p = BVP:Frame(L["BetterVendorPrice"])
+  local p = BVP:Frame(L["Better Vendor Price"])
   BVP.optionsPanel = p
-  p:addText(L["BetterVendorPrice options"], "GameFontNormalLarge"):Place()
+  p:addText(L["Better Vendor Price options"], "GameFontNormalLarge"):Place()
   p:addText(L["These options let you control the behavior of BetterVendorPrice"] .. " " .. BVP.manifestVersion ..
               " @project-abbreviated-hash@"):Place()
 
@@ -146,18 +146,18 @@ function BVP:CreateOptionsPanel()
     if sliderVal == 0 then
       sliderVal = nil
       if BVP.debug then
-        BVP:PrintDefault("Options setting debug level changed from % to OFF.", BVP.debug)
+        BVP:PrintDefault("BVP options setting debug level changed from % to OFF.", BVP.debug)
       end
     else
       if BVP.debug ~= sliderVal then
-        BVP:PrintDefault("Options setting debug level changed from % to %.", BVP.debug, sliderVal)
+        BVP:PrintDefault("BVP options setting debug level changed from % to %.", BVP.debug, sliderVal)
       end
     end
     BVP:SetSaved("debug", sliderVal)
   end
 
   function p:cancel()
-    BVP:Warning("Options screen cancelled, not making any changes.")
+    BVP:Debug("Options screen cancelled, not making any changes.")
   end
 
   function p:okay()
