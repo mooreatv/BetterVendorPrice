@@ -11,6 +11,7 @@ ignore:
     - MoLib/README.md
     - MoLib/tests
     - MoLib/Realms.lua
+    - MoLib/MoLibAH.lua
 
 externals:
     MoLib:
