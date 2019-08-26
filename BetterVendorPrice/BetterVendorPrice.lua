@@ -114,7 +114,7 @@ function BVP:CreateOptionsPanel()
   p:addText(L["Better Vendor Price options"], "GameFontNormalLarge"):Place()
   p:addText(L["These options let you control the behavior of BetterVendorPrice"] .. " " .. BVP.manifestVersion ..
               " @project-abbreviated-hash@"):Place()
-  p:addText(L["Get Auction House DataBase (AHDB) to see auction information on the toolip!"]):Place()
+  p:addText(L["Get Auction House DataBase (|cFF99E5FFAHDB|r) to see auction information on the toolip!"]):Place(0,16)
 
   p:addText(L["Development, troubleshooting and advanced options:"]):Place(40, 20)
 
