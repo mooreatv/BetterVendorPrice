@@ -14,6 +14,7 @@ globals = {
     "GetItemInfo",
     "SetTooltipMoney",
     "GetMouseFocus",
+    "AuctionDB",
 }
 max_line_length = 132
 ignore = {

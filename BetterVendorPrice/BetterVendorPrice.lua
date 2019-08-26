@@ -114,6 +114,7 @@ function BVP:CreateOptionsPanel()
   p:addText(L["Better Vendor Price options"], "GameFontNormalLarge"):Place()
   p:addText(L["These options let you control the behavior of BetterVendorPrice"] .. " " .. BVP.manifestVersion ..
               " @project-abbreviated-hash@"):Place()
+  p:addText(L["Get Auction House DataBase (AHDB) to see auction information on the toolip!"]):Place()
 
   p:addText(L["Development, troubleshooting and advanced options:"]):Place(40, 20)
 
@@ -181,6 +182,20 @@ function BVP.ToolTipHook(t)
   if not link then
     BVP:Debug(1, "No item link for % on %", name, t:GetName())
     return
+  end
+  local auctionData = {}
+  if AuctionDB and AuctionDB.AHGetAuctionInfoByLink then
+    auctionData = AuctionDB:AHGetAuctionInfoByLink(link)
+  end
+  if auctionData.numAuctions then
+    t:AddLine(
+      BVP:format(L["AHDB last scan: % |4auction:auctions;, % |4item:total items;"], auctionData.numAuctions, auctionData.quantity))
+  end
+  if auctionData.minBid then
+    SetTooltipMoney(t, auctionData.minBid, "STATIC", L["AHDB minbid"], L[" (per item)"])
+  end
+  if auctionData.minBuyout then
+    SetTooltipMoney(t, auctionData.minBuyout, "STATIC", L["AHDB buyout"], L[" (per item)"])
   end
   local _, _, _, _, _, _, _, itemStackCount, _, _, itemSellPrice = GetItemInfo(link)
   BVP:Debug(2, "% Item % indiv sell price % stack size % (%)", t:GetName(), name, itemSellPrice, itemStackCount, link)
