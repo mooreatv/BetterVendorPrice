@@ -28,6 +28,7 @@ local L = BVP.L
 BVP.slashCmdName = "bvp"
 BVP.addonHash = "@project-abbreviated-hash@"
 BVP.savedVarName = "betterVendorPriceSaved"
+BVP.showFullStack = true
 
 -- Events handling
 
@@ -48,7 +49,8 @@ function BVP:Help(msg)
   BVP:PrintDefault("BetterVendorPrice: " .. msg .. "\n" .. "/bvp config -- open addon config.\n" ..
                      "/bvp bug -- report a bug or issue.\n" ..
                      "/bvp debug on/off/level -- for debugging on at level or off.\n" ..
-                     "/bvp version -- shows addon version.")
+                     "/bvp version -- shows addon version.\n" ..
+                     "/bvp fs -- toggle showing full stack value.")
 end
 
 function BVP.Slash(arg) -- can't be a : because used directly as slash command
@@ -87,6 +89,13 @@ function BVP.Slash(arg) -- can't be a : because used directly as slash command
       BVP:SetSaved("debug", tonumber(rest))
     end
     BVP:PrintDefault("BetterVendorPrice debug now %", BVP.debug)
+  elseif BVP:StartsWith(arg, "fs") then
+	-- show full stack
+	if BVP.showFullStack == false then
+	 BVP.showFullStack = true
+	else 
+	 BVP.showFullStack = false;
+	end
   else
     BVP:Help('unknown command "' .. arg .. '", usage:')
   end
@@ -223,7 +232,10 @@ function BVP.ToolTipHook(t)
     if count > 1 and count ~= itemStackCount then
       SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"], string.format(L[" (current stack of %d)"], count))
     end
-    SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"], string.format(L[" (full stack of %d)"], itemStackCount))
+    
+    if BVP.showFullStack == true then
+		SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"], string.format(L[" (full stack of %d)"], itemStackCount))
+    end
   else
     SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (item doesn't stack)"])
   end
