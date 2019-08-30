@@ -239,15 +239,15 @@ function BVP.ToolTipHook(t)
         if count == itemStackCount then
           SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (per item)"])
           SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"],
-                          string.format(L[" (current full stack of %d)"], itemStackCount))
+                          string.format(L[" (curr. full stack of %d)"], itemStackCount))
         else
           SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"],
-                          string.format(L[" (per; stacks by %d)"], itemStackCount))
+                          string.format(L[" (per; stacks to %d)"], itemStackCount))
           SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"], string.format(L[" (current stack of %d)"], count))
         end
       else
         SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"],
-                        string.format(L[" (per; stacks by %d)"], itemStackCount))
+                        string.format(L[" (per; stacks to %d)"], itemStackCount))
       end
     end
   else
