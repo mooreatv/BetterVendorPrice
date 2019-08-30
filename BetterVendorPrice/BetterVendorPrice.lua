@@ -29,6 +29,9 @@ BVP.slashCmdName = "bvp"
 BVP.addonHash = "@project-abbreviated-hash@"
 BVP.savedVarName = "betterVendorPriceSaved"
 
+-- default value
+BVP.showFullStack = true
+
 -- Events handling
 
 local additionalEventHandlers = {
@@ -114,7 +117,11 @@ function BVP:CreateOptionsPanel()
   p:addText(L["Better Vendor Price options"], "GameFontNormalLarge"):Place()
   p:addText(L["These options let you control the behavior of BetterVendorPrice"] .. " " .. BVP.manifestVersion ..
               " @project-abbreviated-hash@"):Place()
-  p:addText(L["Get Auction House DataBase (|cFF99E5FFAHDB|r) to see auction information on the toolip!"]):Place(0,16)
+  p:addText(L["Get Auction House DataBase (|cFF99E5FFAHDB|r) to see auction information on the toolip!"]):Place(0, 16)
+
+  local showFullStack = p:addCheckBox("Show full stack vendor price info",
+                                      "Whether to show the up to 3 lines vendor pricing info or skip the full stack one")
+                          :Place(4, 30)
 
   p:addText(L["Development, troubleshooting and advanced options:"]):Place(40, 20)
 
@@ -139,6 +146,7 @@ function BVP:CreateOptionsPanel()
   function p:HandleRefresh()
     p:Init()
     debugLevel:SetValue(BVP.debug or 0)
+    showFullStack:SetChecked(BVP.showFullStack)
   end
 
   function p:HandleOk()
@@ -155,6 +163,7 @@ function BVP:CreateOptionsPanel()
       end
     end
     BVP:SetSaved("debug", sliderVal)
+    BVP:SetSaved("showFullStack", showFullStack:GetChecked())
   end
 
   function p:cancel()
@@ -188,8 +197,8 @@ function BVP.ToolTipHook(t)
     auctionData = AuctionDB:AHGetAuctionInfoByLink(link)
   end
   if auctionData.numAuctions then
-    t:AddLine(
-      BVP:format(L["AHDB last scan: % |4auction:auctions;, % |4item:total items;"], auctionData.numAuctions, auctionData.quantity))
+    t:AddLine(BVP:format(L["AHDB last scan: % |4auction:auctions;, % |4item:total items;"], auctionData.numAuctions,
+                         auctionData.quantity))
   end
   if auctionData.minBid then
     SetTooltipMoney(t, auctionData.minBid, "STATIC", L["AHDB minbid"], L[" (per item)"])
@@ -219,11 +228,28 @@ function BVP.ToolTipHook(t)
     end
     local curValue = count * itemSellPrice
     local maxValue = itemStackCount * itemSellPrice
-    SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], string.format(L[" (per item)"], count))
-    if count > 1 and count ~= itemStackCount then
-      SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"], string.format(L[" (current stack of %d)"], count))
+    if BVP.showFullStack then
+      SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (per item)"])
+      if count > 1 and count ~= itemStackCount then
+        SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"], string.format(L[" (current stack of %d)"], count))
+      end
+      SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"], string.format(L[" (full stack of %d)"], itemStackCount))
+    else
+      if count > 1 then
+        if count == itemStackCount then
+          SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (per item)"])
+          SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"],
+                          string.format(L[" (current full stack of %d)"], itemStackCount))
+        else
+          SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"],
+                          string.format(L[" (per; stacks by %d)"], itemStackCount))
+          SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"], string.format(L[" (current stack of %d)"], count))
+        end
+      else
+        SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"],
+                        string.format(L[" (per; stacks by %d)"], itemStackCount))
+      end
     end
-    SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"], string.format(L[" (full stack of %d)"], itemStackCount))
   else
     SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (item doesn't stack)"])
   end
