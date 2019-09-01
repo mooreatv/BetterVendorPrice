@@ -197,8 +197,14 @@ function BVP.ToolTipHook(t)
     auctionData = AuctionDB:AHGetAuctionInfoByLink(link)
   end
   if auctionData.numAuctions then
-    t:AddLine(BVP:format(L["AHDB last scan: % |4auction:auctions;, % |4item:total items;"], auctionData.numAuctions,
-                         auctionData.quantity))
+    local sellers
+    if auctionData.hasUnknownSellers then
+      sellers = BVP:format(L["(%+ sellers), "], auctionData.numSellers)
+    else
+      sellers = BVP:format(L["(% |4seller:sellers;), "], auctionData.numSellers)
+    end
+    t:AddLine(BVP:format(L["AHDB last scan: % |4auction:auctions; "] .. sellers .. L["% |4item:total items;"],
+                         auctionData.numAuctions, auctionData.quantity))
   end
   if auctionData.minBid then
     SetTooltipMoney(t, auctionData.minBid, "STATIC", L["AHDB minbid"], L[" (per item)"])
@@ -217,9 +223,9 @@ function BVP.ToolTipHook(t)
     if not c then
       error("nil GetMouseFocus()")
     end
-    BVP:Debug(3, "Mouse focus is on % % % %", c:GetName(), c:GetObjectType(), c.count, c.Count)
     -- This my finding to make it work for AH listings for instance
     local bn = c:GetName() and (c:GetName() .. "Count")
+    BVP:Debug(3, "Mouse focus is on % % % % % %", c:GetName(), c:GetObjectType(), c.count, c.Count, c.Quantity, bn)
     local count = c.count or (c.Count and c.Count:GetText()) or (c.Quantity and c.Quantity:GetText()) or
                     (bn and _G[bn] and _G[bn]:GetText())
     count = tonumber(count) or 1
