@@ -197,11 +197,13 @@ function BVP.ToolTipHook(t)
     auctionData = AuctionDB:AHGetAuctionInfoByLink(link)
   end
   if auctionData.numAuctions then
-    local sellers
-    if auctionData.hasUnknownSellers then
-      sellers = BVP:format(L["(%+ sellers), "], auctionData.numSellers)
-    else
-      sellers = BVP:format(L["(% |4seller:sellers;), "], auctionData.numSellers)
+    local sellers = ""
+    if auctionData.numSellers then -- compat with older AHDB addon
+      if auctionData.hasUnknownSellers then
+        sellers = BVP:format(L["(%+ sellers), "], auctionData.numSellers)
+      else
+        sellers = BVP:format(L["(% |4seller:sellers;), "], auctionData.numSellers)
+      end
     end
     t:AddLine(BVP:format(L["AHDB last scan: % |4auction:auctions; "] .. sellers .. L["% |4item:total items;"],
                          auctionData.numAuctions, auctionData.quantity))
