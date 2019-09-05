@@ -117,7 +117,7 @@ function BVP:CreateOptionsPanel()
   p:addText(L["Better Vendor Price options"], "GameFontNormalLarge"):Place()
   p:addText(L["These options let you control the behavior of BetterVendorPrice"] .. " " .. BVP.manifestVersion ..
               " @project-abbreviated-hash@"):Place()
-  p:addText(L["Get Auction House DataBase (|cFF99E5FFAHDB|r) to see auction information on the toolip!"]):Place(0, 16)
+  p:addText(L["Get Auction House DataBase (|cFF99E5FFAHDB|r) v0.12 or newer to see auction information on the toolip!"]):Place(0, 16)
 
   local showFullStack = p:addCheckBox("Show full stack vendor price info",
                                       "Whether to show the up to 3 lines vendor pricing info or skip the full stack one")
