@@ -10,3 +10,4 @@
 MoLib/MoLib.lua
 MoLib/MoLibUI.lua
 BetterVendorPrice.lua
+locale\locale.xml
