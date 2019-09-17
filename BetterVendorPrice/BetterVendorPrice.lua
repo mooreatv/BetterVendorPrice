@@ -9,7 +9,8 @@
 
    Releases detail/changes are on https://github.com/mooreatv/BetterVendorPrice/releases
 
-   Intial concept inspired by "Vendor Price" by Icesythe7 with a brand new implementation
+   Intial concept inspired by some other horrible code and author(s) that have been behaving like
+   a*holes and don't deserve the credit I initially gave them. Also with a brand new implementation
    and different individual, current stack, full stack pricing information
 
    ]] --
