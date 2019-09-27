@@ -124,17 +124,18 @@ function BVP:CreateOptionsPanel()
   p:addText(L["Get Auction House DataBase (|cFF99E5FFAHDB|r) v0.12 or newer to see auction information on the toolip!"])
     :Place(0, 16)
 
-  local showFullStack = p:addCheckBox("Show full stack vendor price info",
-                                      "Whether to show the up to 3 lines vendor pricing info or skip the full stack one")
+  local showFullStack = p:addCheckBox(L["Show full stack vendor price info"],
+                                      L["Whether to show the up to 3 lines vendor pricing info or skip the full stack one"])
                           :Place(4, 30)
 
-  local showAhdb = p:addCheckBox("Show AHDB info", "Whether to show the AHDB info or not"):Place(4, 30)
+  local showAhdb = p:addCheckBox(L["Show AHDB info"], L["Whether to show the AHDB info or not"]):Place(4, 30)
 
-  local showAhdbMinBid = p:addCheckBox("Show AHDB min bid", "Whether to show the AHDB min bid or not"):Place(60, 20)
+  local showAhdbMinBid = p:addCheckBox(L["Show AHDB min bid"], L["Whether to show the AHDB min bid or not"]):Place(60,
+                                                                                                                   20)
 
   p:addText(L["Development, troubleshooting and advanced options:"]):Place(40, 40)
 
-  p:addButton("Bug Report", L["Get Information to submit a bug."] .. "\n|cFF99E5FF/bvp bug|r", "bug"):Place(4, 20)
+  p:addButton(L["Bug Report"], L["Get Information to submit a bug."] .. "\n|cFF99E5FF/bvp bug|r", "bug"):Place(4, 20)
 
   local debugLevel = p:addSlider(L["Debug level"], L["Sets the debug level"] .. "\n|cFF99E5FF/bvp debug X|r", 0, 9, 1,
                                  "Off"):Place(16, 30)

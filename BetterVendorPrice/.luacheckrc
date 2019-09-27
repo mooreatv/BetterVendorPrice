@@ -15,10 +15,12 @@ globals = {
     "SetTooltipMoney",
     "GetMouseFocus",
     "AuctionDB",
+    "GetLocale",
 }
 max_line_length = 132
 ignore = {
     "211/_.*",
+    "211/L",
     "212/_.*",
 }
 self=false
