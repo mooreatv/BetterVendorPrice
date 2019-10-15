@@ -16,6 +16,7 @@ globals = {
     "GetMouseFocus",
     "AuctionDB",
     "GetLocale",
+    "IsShiftKeyDown",
 }
 max_line_length = 132
 ignore = {

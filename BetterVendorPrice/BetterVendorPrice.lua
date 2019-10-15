@@ -35,6 +35,7 @@ BVP.savedVarName = "betterVendorPriceSaved"
 BVP.showFullStack = true
 BVP.showAhdb = true
 BVP.showAhdbMinBid = true
+BVP.holdShiftForMore = false
 
 -- Events handling
 
@@ -128,6 +129,9 @@ function BVP:CreateOptionsPanel()
                                       L["Whether to show the up to 3 lines vendor pricing info or skip the full stack one"])
                           :Place(4, 30)
 
+  local holdShiftForMore = p:addCheckBox(L["Show all only when Shift is held"],
+                                         L["Whether to require the shift key to show full info"]):Place(4, 30)
+
   local showAhdb = p:addCheckBox(L["Show AHDB info"], L["Whether to show the AHDB info or not"]):Place(4, 30)
 
   local showAhdbMinBid = p:addCheckBox(L["Show AHDB min bid"], L["Whether to show the AHDB min bid or not"]):Place(60,
@@ -157,6 +161,7 @@ function BVP:CreateOptionsPanel()
     p:Init()
     debugLevel:SetValue(BVP.debug or 0)
     showFullStack:SetChecked(BVP.showFullStack)
+    holdShiftForMore:SetChecked(BVP.holdShiftForMore)
     showAhdb:SetChecked(BVP.showAhdb)
     showAhdbMinBid:SetChecked(BVP.showAhdbMinBid)
   end
@@ -176,6 +181,7 @@ function BVP:CreateOptionsPanel()
     end
     BVP:SetSaved("debug", sliderVal)
     BVP:SetSaved("showFullStack", showFullStack:GetChecked())
+    BVP:SetSaved("holdShiftForMore", holdShiftForMore:GetChecked())
     BVP:SetSaved("showAhdb", showAhdb:GetChecked())
     BVP:SetSaved("showAhdbMinBid", showAhdbMinBid:GetChecked())
   end
@@ -252,7 +258,21 @@ function BVP.ToolTipHook(t)
     end
     local curValue = count * itemSellPrice
     local maxValue = itemStackCount * itemSellPrice
-    if BVP.showFullStack then
+    -- if/else getting kinda ugly here
+    if BVP.holdShiftForMore and not IsShiftKeyDown() then
+      if count > 1 then
+        if count == itemStackCount then
+          SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"],
+                          string.format(L[" (curr. full stack of %d)"], itemStackCount))
+        else
+          SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"],
+                          string.format(L[" (current stack of %d/%d)"], count, itemStackCount))
+        end
+      else
+        SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"],
+                        string.format(L[" (per; stacks to %d)"], itemStackCount))
+      end
+    elseif BVP.showFullStack then
       SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"], L[" (per item)"])
       if count > 1 and count ~= itemStackCount then
         SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"], string.format(L[" (current stack of %d)"], count))
