@@ -212,8 +212,9 @@ function BVP.ToolTipHook(t)
     BVP:Debug(1, "No item link for % on %", name, t:GetName())
     return
   end
+  local compactView = BVP.holdShiftForMore and not IsShiftKeyDown()
   local auctionData = {}
-  if BVP.showAhdb and AuctionDB and AuctionDB.AHGetAuctionInfoByLink then
+  if BVP.showAhdb and AuctionDB and AuctionDB.AHGetAuctionInfoByLink and not compactView then
     auctionData = AuctionDB:AHGetAuctionInfoByLink(link)
   end
   if auctionData.numAuctions then
@@ -259,14 +260,14 @@ function BVP.ToolTipHook(t)
     local curValue = count * itemSellPrice
     local maxValue = itemStackCount * itemSellPrice
     -- if/else getting kinda ugly here
-    if BVP.holdShiftForMore and not IsShiftKeyDown() then
+    if compactView then
       if count > 1 then
         if count == itemStackCount then
           SetTooltipMoney(t, maxValue, "STATIC", L["Vendors for:"],
-                          string.format(L[" (curr. full stack of %d)"], itemStackCount))
+                          string.format(L[" (full stack of %d)"], itemStackCount))
         else
           SetTooltipMoney(t, curValue, "STATIC", L["Vendors for:"],
-                          string.format(L[" (current stack of %d/%d)"], count, itemStackCount))
+                          string.format(L[" (curr. stack of %d/%d)"], count, itemStackCount))
         end
       else
         SetTooltipMoney(t, itemSellPrice, "STATIC", L["Vendors for:"],
