@@ -9,6 +9,8 @@ Shows per individual, current stack and full stack prices.
 
 Works anywhere including bags, vendors, item links in chat and the Auction House.
 
+Has configuration options to tweak the display from 1 to 3 lines + AHDB info or not, using Shift key or not: `/bvp config`
+
 ## Background/Why is it useful?
 Sometimes the regular vendor price isn't enough to decide what to keep and what to discard: 
 
@@ -23,7 +25,7 @@ Unless you are a math wiz and can do all that in your head (and if you know the 
 ## More info
 Works for both BfA and WoW Classic (where it's even more useful given lack of default vendor price)
 
-Get the binary release using curse/twitch client or on wowinterface
+Get the binary release using [curseforge](https://www.curseforge.com/wow/addons/better-vendor-price)/twitch client or on wowinterface
 
 The source of the addon resides on https://github.com/mooreatv/BetterVendorPrice
 (and the MoLib library at https://github.com/mooreatv/MoLib)
