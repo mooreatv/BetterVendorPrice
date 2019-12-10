@@ -2,7 +2,7 @@
 ## Interface: 80205
 #@end-retail@
 #@non-retail@
-# ## Interface: 11302
+# ## Interface: 11303
 #@end-non-retail@
 ## Title: Better Vendor Price
 ## Notes: Better Vendor Price with stack price information (|cFF99E5FF/bvp config|r)
