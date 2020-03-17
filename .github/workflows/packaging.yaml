@@ -21,7 +21,7 @@ jobs:
           curl -s https://raw.githubusercontent.com/mooreatv/packager/master/release.sh > ./release.sh
           chmod 755 ./release.sh
       - name: Create Classic Package
-        run: ./release.sh -g 1.13.3 -m pkgmeta.yaml -p 332558 -w 25078
+        run: ./release.sh -g 1.13.4 -m pkgmeta.yaml -p 332558 -w 25078
         env:
          CF_API_KEY: ${{ secrets.CF_API_KEY }}
          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
