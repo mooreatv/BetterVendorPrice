@@ -11,6 +11,8 @@ Works anywhere including bags, vendors, item links in chat and the Auction House
 
 Has configuration options to tweak the display from 1 to 3 lines + AHDB info or not, using Shift key or not: `/bvp config`
 
+(check the different views and stack info using shift and not in the config)
+
 ## Background/Why is it useful?
 Sometimes the regular vendor price isn't enough to decide what to keep and what to discard: 
 
