@@ -5,7 +5,7 @@
 # ## Interface: 11305
 #@end-non-retail@
 ## Title: Better Vendor Price
-## Notes: Better Vendor Price with stack price information (|cFF99E5FF/bvp config|r)
+## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
 ## Author: MooreaTV moorea@ymail.com
 ## Version: @project-version@
 ## DefaultState: Enabled
