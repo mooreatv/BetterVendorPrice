@@ -13,7 +13,7 @@
 ## SavedVariables: betterVendorPriceSaved
 ## Globe: check-classic
 ## X-OpenSource-License: LPGLv3
-## X-OpenSource-Releases: https://github.com/mooreatv/NeatMinimap/releases
+## X-OpenSource-Releases: https://github.com/mooreatv/BetterVendorPrice/releases
 ## X-Curse-Project-ID: 332558
 ## X-WoWI-ID: 25078
 MoLib/MoLib.lua
