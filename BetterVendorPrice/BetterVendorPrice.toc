@@ -2,7 +2,7 @@
 ## Interface: 90002
 #@end-retail@
 #@non-retail@
-# ## Interface: 11305
+# ## Interface: 11306
 #@end-non-retail@
 ## Title: Better Vendor Price
 ## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
@@ -12,6 +12,10 @@
 ## LoadOnDemand: 0
 ## SavedVariables: betterVendorPriceSaved
 ## Globe: check-classic
+## X-OpenSource-License: LPGLv3
+## X-OpenSource-Releases: https://github.com/mooreatv/NeatMinimap/releases
+## X-Curse-Project-ID: 332558
+## X-WoWI-ID: 25078
 MoLib/MoLib.lua
 MoLib/MoLibUI.lua
 BetterVendorPrice.lua
