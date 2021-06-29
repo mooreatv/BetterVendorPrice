@@ -1,6 +1,7 @@
-## Interface: 90005
+## Interface: 90100
 ## Title: Better Vendor Price
-## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r) - Shadowlands edition
+## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
+## Notes: Shadowlands Chains of Domination edition
 ## Author: MooreaTV moorea@ymail.com
 ## Version: @project-version@
 ## DefaultState: Enabled
