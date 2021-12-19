@@ -14,18 +14,18 @@ Has configuration options to tweak the display from 1 to 3 lines + AHDB info or 
 (check the different views and stack info using shift and not in the config)
 
 ## Background/Why is it useful?
-Sometimes the regular vendor price isn't enough to decide what to keep and what to discard: 
+Sometimes the regular vendor price isn't enough to decide what to keep and what to discard:
 
 For instance imagine you have 4 something that sell for 12s and 2 of something else for for 8s and both are dropping right now
 
 Well assuming they both stack in 5 max, you should get rid of the 4 as you can get 20s from that slot with the other item (vs 15s for the other)
- 
+
 But if one stacks in 20 and the other in 5 or 10, the calculation changes !
 
 Unless you are a math wiz and can do all that in your head (and if you know the stacking size), you can use this addon to guide you! (and if a math wiz, it'll tell you the stacking size too which you can't know otherwise)
 
 ## More info
-Works for both BfA and WoW Classic (where it's even more useful given lack of default vendor price)
+Works for both Shadowlands and WoW Classic (Era, SoM, and TBC where it's even more useful given lack of default vendor price)
 
 Get the binary release using [curseforge](https://www.curseforge.com/wow/addons/better-vendor-price)/twitch client or on wowinterface
 
