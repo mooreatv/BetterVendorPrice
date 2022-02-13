@@ -12,6 +12,7 @@
 ## X-OpenSource-Releases: https://github.com/mooreatv/BetterVendorPrice/releases
 ## X-Curse-Project-ID: 332558
 ## X-WoWI-ID: 25078
+## X-Wago-ID: rkGrpX6y
 MoLib/MoLib.lua
 MoLib/MoLibUI.lua
 BetterVendorPrice.lua
