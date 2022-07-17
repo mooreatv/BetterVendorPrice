@@ -13,7 +13,7 @@
 ## X-Curse-Project-ID: 332558
 ## X-WoWI-ID: 25078
 ## X-Wago-ID: rkGrpX6y
-MoLib/MoLib.lua
-MoLib/MoLibUI.lua
+MoLib\MoLib.lua
+MoLib\MoLibUI.lua
 BetterVendorPrice.lua
 locale\locale.xml

@@ -1,7 +1,7 @@
-## Interface: 11403
+## Interface: 30400
 ## Title: Better Vendor Price
 ## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
-## Notes: Classic (era and SoM) edition
+## Notes: Wrath of the Lich King Classic edition
 ## Author: MooreaTV moorea@ymail.com
 ## Version: @project-version@
 ## DefaultState: Enabled
