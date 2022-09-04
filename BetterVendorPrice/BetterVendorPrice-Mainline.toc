@@ -1,4 +1,4 @@
-## Interface: 90205
+## Interface: 90207
 ## Title: Better Vendor Price
 ## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
 ## Notes: Shadowlands Eternity's End edition
