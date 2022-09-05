@@ -25,7 +25,7 @@ But if one stacks in 20 and the other in 5 or 10, the calculation changes !
 Unless you are a math wiz and can do all that in your head (and if you know the stacking size), you can use this addon to guide you! (and if a math wiz, it'll tell you the stacking size too which you can't know otherwise)
 
 ## More info
-Works for both Shadowlands and WoW Classic (Era, SoM, and TBC where it's even more useful given lack of default vendor price)
+Works for both Shadowlands and WoW Classic (Era, SoM, TBC, and now Wrath of the Lich King where it's even more useful given lack of default vendor price)
 
 Get the binary release using [curseforge](https://www.curseforge.com/wow/addons/better-vendor-price)/twitch client or on wowinterface
 
