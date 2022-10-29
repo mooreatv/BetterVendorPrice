@@ -1,7 +1,5 @@
 globals = {
     "betterVendorPriceSaved",
-    "InterfaceOptionsFrame",
-    "InterfaceOptionsFrame_OpenToCategory",
     "UIParentLoadAddOn",
      "SlashCmdList",
     "SLASH_BetterVendorPrice_Slash_Command1",

@@ -81,10 +81,7 @@ function BVP.Slash(arg) -- can't be a : because used directly as slash command
     -- base molib will add version and date/timne
     BVP:BugReport(subText, "@project-abbreviated-hash@\n\n" .. L["Bug report from slash command"])
   elseif cmd == "c" then
-    -- Show config panel
-    -- InterfaceOptionsList_DisplayPanel(BVP.optionsPanel)
-    InterfaceOptionsFrame:Show() -- onshow will clear the category if not already displayed
-    InterfaceOptionsFrame_OpenToCategory(BVP.optionsPanel) -- gets our name selected
+    BVP:ShowConfigPanel(BVP.optionsPanel)
   elseif BVP:StartsWith(arg, "debug") then
     -- debug
     if rest == "on" then
