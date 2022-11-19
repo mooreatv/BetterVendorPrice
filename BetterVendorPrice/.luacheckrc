@@ -15,6 +15,8 @@ globals = {
     "AuctionDB",
     "GetLocale",
     "IsShiftKeyDown",
+    "TooltipDataProcessor",
+    "Enum",
 }
 max_line_length = 132
 ignore = {

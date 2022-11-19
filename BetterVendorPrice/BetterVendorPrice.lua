@@ -299,8 +299,13 @@ function BVP.ToolTipHook(t)
   return true
 end
 
-GameTooltip:HookScript("OnTooltipSetItem", BVP.ToolTipHook)
-ItemRefTooltip:HookScript("OnTooltipSetItem", BVP.ToolTipHook)
+if TooltipDataProcessor ~= nil then
+  -- Dragonflight "revamp"
+  TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, BVP.ToolTipHook)
+else
+  GameTooltip:HookScript("OnTooltipSetItem", BVP.ToolTipHook)
+  ItemRefTooltip:HookScript("OnTooltipSetItem", BVP.ToolTipHook)
+end
 
 --
 BVP:Debug("bvp main file loaded")
