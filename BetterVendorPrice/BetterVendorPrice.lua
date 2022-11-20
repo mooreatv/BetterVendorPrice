@@ -204,6 +204,10 @@ function BVP:CreateOptionsPanel()
 end
 
 function BVP.ToolTipHook(t)
+  if t.GetItem == nil then
+    BVP:Debug(1, "No GetItem for %", t:GetName())
+    return
+  end
   local name, link = t:GetItem()
   if not link then
     BVP:Debug(1, "No item link for % on %", name, t:GetName())
