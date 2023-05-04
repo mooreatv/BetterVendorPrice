@@ -13,6 +13,7 @@
 ## X-Curse-Project-ID: 332558
 ## X-WoWI-ID: 25078
 ## X-Wago-ID: rkGrpX6y
+## IconTexture: Interface\AddOns\BetterVendorPrice\BetterVendorPriceIcon.png
 MoLib\MoLib.lua
 MoLib\MoLibUI.lua
 BetterVendorPrice.lua
