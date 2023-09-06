@@ -1,4 +1,4 @@
-## Interface: 100105
+## Interface: 100107
 ## Title: Better Vendor Price
 ## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
 ## Notes: Dragonflight edition
