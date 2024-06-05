@@ -303,7 +303,7 @@ function BVP.ToolTipHook(t)
   return true
 end
 
-if TooltipDataProcessor ~= nil and _G.WOW_PROJECT_ID =~ (_G.WOW_PROJECT_CATACLYSM_CLASSIC or 14) then
+if C_TooltipInfo ~= nil then
   -- Dragonflight "revamp"
   TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, BVP.ToolTipHook)
 else
