@@ -17,6 +17,7 @@ globals = {
     "IsShiftKeyDown",
     "TooltipDataProcessor",
     "Enum",
+    "C_TooltipInfo",
 }
 max_line_length = 132
 ignore = {
