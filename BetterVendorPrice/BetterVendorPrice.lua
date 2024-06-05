@@ -303,7 +303,7 @@ function BVP.ToolTipHook(t)
   return true
 end
 
-if TooltipDataProcessor ~= nil then
+if C_TooltipInfo ~= nil then
   -- Dragonflight "revamp"
   TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, BVP.ToolTipHook)
 else
