@@ -200,7 +200,7 @@ function BVP:CreateOptionsPanel()
     end
   end
   -- Add the panel to the Interface Options
-  InterfaceOptions_AddCategory(BVP.optionsPanel)
+  BVP:ConfigPanel(BVP.optionsPanel)
 end
 
 function BVP.ToolTipHook(t)
@@ -243,7 +243,7 @@ function BVP.ToolTipHook(t)
     return
   end
   if itemStackCount > 1 then
-    local c = GetMouseFocus()
+    local c = BVP:GetMouseFocus()
     local count = 1 -- default
     if c then
       -- This my finding to make it work for AH listings for instance
