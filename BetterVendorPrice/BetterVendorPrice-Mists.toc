@@ -1,7 +1,7 @@
-## Interface: 40402
+## Interface: 50500
 ## Title: Better Vendor Price
 ## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
-## Notes: Cataclysm Classic edition
+## Notes: MoP Classic edition
 ## Author: MooreaTV moorea@ymail.com
 ## Version: @project-version@
 ## DefaultState: Enabled
