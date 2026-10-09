@@ -19,7 +19,10 @@ if BVP.version:find("^@") then BVP.version = "dev" end
 BVP.defaults = {
   debug = false,
   showFullStack = true, -- per item and full stack lines instead of a single one
-  holdShiftForMore = false -- compact single line unless Shift is held
+  holdShiftForMore = false, -- compact single line unless Shift is held
+  highlightCheapest = true, -- highlight the cheapest slot to throw away in the bags (see Bags.lua)
+  reportFull = true, -- say in chat which slot it is when the main bags get full
+  autoRestack = true -- merge partial stacks when the main bags get full and on /bvp cheapest
 }
 
 -- Localization: L["text"] is the translation or the text itself; the locale files (filled by the CurseForge
@@ -74,6 +77,7 @@ BVP:On("ADDON_LOADED", function(self, name)
   sv.settings = s
   for k, v in pairs(self.defaults) do if s[k] == nil then s[k] = v end end
   self.db = s
+  sv.keep = sv.keep or {} -- itemID -> true: never suggested to throw away (/bvp keep)
   self.sv = sv
 end)
 
@@ -133,7 +137,7 @@ end
 -- Whether vendors buy the item: some have a sell price in the item data but no "Sell Price" tooltip line
 -- (e.g. Instant Poison) and vendors refuse them.
 local sellable = {}
-local function isSellable(itemID)
+function BVP:IsSellable(itemID)
   if sellable[itemID] == nil then
     local data = C_TooltipInfo.GetItemByID(itemID)
     sellable[itemID] = data and sellLinePrice(data) ~= nil or false
@@ -151,9 +155,14 @@ local function onItemTooltip(tt, data)
   if not unitPrice or unitPrice <= 0 then return end
   -- the native line is the price of the whole stack under the mouse, which gives us its count
   local native = sellLinePrice(data)
-  if not native and not isSellable(itemID) then return end
+  if not native and not self:IsSellable(itemID) then return end
   local count = native and math.max(1, math.floor(native / unitPrice + 0.5)) or 1
   self:Debug("%s item %d unit price %d stack %d/%d", tt:GetName() or "?", itemID, unitPrice, count, stackSize)
+  local owner = tt:GetOwner()
+  if owner and self:IsCandidateButton(owner) then
+    tt:AddLine(L["Cheapest slot to throw away when bags are full"], 1, 0.3, 0.3)
+    tt:AddLine(L["/bvp keep to never suggest it"], 0.6, 0.6, 0.6)
+  end
   -- only what the native line doesn't already show: it has the current stack's price
   if stackSize <= 1 then
     if not native then addMoney(tt, unitPrice, L[" (item doesn't stack)"]) end

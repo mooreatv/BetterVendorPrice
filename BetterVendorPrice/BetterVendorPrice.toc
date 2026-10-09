@@ -15,4 +15,6 @@
 ## IconTexture: Interface\AddOns\BetterVendorPrice\BetterVendorPriceIcon.png
 BetterVendorPrice.lua
 locale\locale.xml
+Bags.lua
+Restack.lua
 Options.lua

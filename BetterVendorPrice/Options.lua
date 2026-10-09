@@ -9,7 +9,19 @@ local CHECKBOXES = {
     L["Also show what a full stack sells for, not just the price per item"]
   },
   {"holdShiftForMore", L["Show all only when Shift is held"], L["Whether to require the shift key to show full info"]},
-  {"debug", "Debug output", "Print detailed messages to the chat window."}
+  {
+    "highlightCheapest", L["Highlight the cheapest slot in the bags"],
+    L["The item to throw away first when your bags are full: lowest vendor value, counting what a stack that is " ..
+      "still filling up with drops will be worth. Never destroys anything itself."]
+  }, {
+    "reportFull", L["Chat message when the bags are full"],
+    L["When your main bags (not the reagent or profession bags) get full, say which slot is the cheapest, or " ..
+      "which item to restack to free a slot."]
+  }, {
+    "autoRestack", L["Restack when the bags are full"],
+    L["When your main bags get full (and with /bvp cheapest), merge partial stacks of the same item to free " ..
+      "slots, also into the reagent and profession bags. Only moves items. /bvp restack does it anytime."]
+  }, {"debug", "Debug output", "Print detailed messages to the chat window."}
 }
 
 local refreshers = {}
@@ -45,7 +57,10 @@ local function build()
     local cb = CreateFrame("CheckButton", nil, panel, "UICheckButtonTemplate")
     cb:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, prev == ahdb and -16 or -2)
     cb.Text:SetText(o[2])
-    cb:SetScript("OnClick", function(b) BVP.db[key] = b:GetChecked() and true or false end)
+    cb:SetScript("OnClick", function(b)
+      BVP.db[key] = b:GetChecked() and true or false
+      BVP:Fire("OPTION_CHANGED", key)
+    end)
     tooltip(cb, o[2], o[3])
     refreshers[#refreshers + 1] = function() cb:SetChecked(BVP.db[key]) end
     prev = cb
