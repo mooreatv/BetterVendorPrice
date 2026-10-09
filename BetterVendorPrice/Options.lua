@@ -39,6 +39,7 @@ end
 
 local function build()
   local panel = CreateFrame("Frame")
+  panel:Hide() -- new frames start shown: OnShow (values refresh) wouldn't fire the first time Settings shows it
   panel.name = L["Better Vendor Price"]
   panel:SetScript("OnShow", Refresh)
   local t = panel:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
