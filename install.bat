@@ -1,6 +1,8 @@
 @echo off
-rem Installs the addon in the WoW Forever beta; edit WOW below if needed.
-set WOW=C:\Program Files (x86)\World of Warcraft\_classic_beta_\Interface\AddOns
-rem start clean: older installs left other flavor TOCs and MoLib in there
-if exist "%WOW%\BetterVendorPrice" rmdir /s /q "%WOW%\BetterVendorPrice"
-xcopy /i /y /s "%~dp0BetterVendorPrice\*.*" "%WOW%\BetterVendorPrice"
+rem Installs the addon in each WoW flavor listed below; edit WOW (base install dir) if needed.
+set WOW=C:\Program Files (x86)\World of Warcraft
+for %%F in (_retail_ _classic_beta_) do (
+  rem start clean: older installs left other flavor TOCs and MoLib in there
+  if exist "%WOW%\%%F\Interface\AddOns\BetterVendorPrice" rmdir /s /q "%WOW%\%%F\Interface\AddOns\BetterVendorPrice"
+  xcopy /i /y /s "%~dp0BetterVendorPrice\*.*" "%WOW%\%%F\Interface\AddOns\BetterVendorPrice"
+)

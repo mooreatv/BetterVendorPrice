@@ -5,7 +5,8 @@
 BVP shows what your items are really worth to a vendor (per item and per full stack, not just the stack you happen
 to hold) and, when your bags are full, restacks them and tells you which item is the cheapest to throw away.
 
-The Classic / Mists / retail versions (and their MoLib based code) are on the
+Made for WoW Forever, and the same version also works on retail. The Classic / Mists versions (and their MoLib
+based code) are on the
 [legacy](https://github.com/mooreatv/BetterVendorPrice/tree/legacy) branch.
 
 ## Bags full? BVP knows what to throw away

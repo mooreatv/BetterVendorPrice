@@ -122,8 +122,8 @@ function BVP:CheckBags(full)
     self:Report(full)
     return
   end
-  self:Restack(function(s, freed)
-    s:Print(L["Restacked: %d main bag slot(s) freed."], freed)
+  self:Restack(function(s, freed, links)
+    s:PrintRestacked(freed, links)
     if not full or s.freeSlots == 0 then s:Report(full) end
   end)
 end

@@ -1,4 +1,4 @@
-## Interface: 16001
+## Interface: 16001, 120100
 ## Title: Better Vendor Price
 ## Notes: Vendor price per item and full stack in tooltips (|cFF99E5FF/bvp|r)
 ## Notes: WoW Forever edition
