@@ -61,15 +61,17 @@ function BVP:Restackable()
   return n, links
 end
 
--- Next {from, to, amount} move, or nil when nothing more to gain.
+-- Next {link, from, to, amount} move, or nil when nothing more to gain.
 local function nextMove(items)
-  for _, it in pairs(items) do
+  for link, it in pairs(items) do
     if slotsFreed(it) > 0 then
       table.sort(it.main, function(a, b) return a.count < b.count end)
       -- fill the other bags first, else the fullest main bag stack, from the smallest one
       local to = it.other[1] or it.main[#it.main]
       local from = it.main[1]
-      if from ~= to then return {from = from, to = to, amount = math.min(from.count, it.max - to.count)} end
+      if from ~= to then
+        return {link = link, from = from, to = to, amount = math.min(from.count, it.max - to.count)}
+      end
     end
   end
 end
@@ -87,7 +89,7 @@ local function finish(self, reason)
   self.restacking = nil
   if reason then self:Debug("restack stopped: %s", reason) end
   self:UpdateBags()
-  if r.done then r.done(self, mainFreeSlots() - r.before) end
+  if r.done then r.done(self, mainFreeSlots() - r.before, r.links) end
 end
 
 local function step(self, started)
@@ -103,6 +105,10 @@ local function step(self, started)
   local m = nextMove(items)
   if not m or r.moves >= MAX_MOVES then return finish(self) end
   r.moves = r.moves + 1
+  if not r.seen[m.link] then
+    r.seen[m.link] = true
+    table.insert(r.links, m.link)
+  end
   self:Debug("restack move %d: %d from %d/%d to %d/%d", r.moves, m.amount, m.from.bag, m.from.slot, m.to.bag, m.to.slot)
   if m.amount == m.from.count then
     C_Container.PickupContainerItem(m.from.bag, m.from.slot)
@@ -114,13 +120,18 @@ local function step(self, started)
   C_Timer.After(0.1, function() step(self, now) end)
 end
 
--- Restacks, then calls done(self, slotsFreed).
+-- Restacks, then calls done(self, slotsFreed, links of the items restacked).
 function BVP:Restack(done)
   if self.restacking then return end
-  self.restacking = {moves = 0, done = done, before = mainFreeSlots()}
+  self.restacking = {moves = 0, done = done, before = mainFreeSlots(), links = {}, seen = {}}
   step(self, GetTime())
 end
 
-BVP:AddCommand("restack", function(self)
-  self:Restack(function(s, freed) s:Print(L["Restacked: %d main bag slot(s) freed."], freed) end)
-end, "restack - merge partial stacks to free bag slots")
+function BVP:PrintRestacked(freed, links)
+  local msg = L["Restacked: %d main bag slot(s) freed."]:format(freed)
+  if #links > 0 then msg = msg .. " " .. table.concat(links, " ") end
+  self:Print(msg)
+end
+
+BVP:AddCommand("restack", function(self) self:Restack(self.PrintRestacked) end,
+               "restack - merge partial stacks to free bag slots")

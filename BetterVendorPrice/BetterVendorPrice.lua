@@ -8,7 +8,7 @@
 
    Releases detail/changes are on https://github.com/mooreatv/BetterVendorPrice/releases
    ]] --
--- BVP for WoW Forever (no libraries). The Classic/Mists/retail MoLib version is on the legacy branch.
+-- BVP for WoW Forever, also works on retail (no libraries). The Classic/Mists MoLib version is on the legacy branch.
 local addonName, BVP = ...
 _G.BetterVendorPrice = BVP
 
@@ -118,7 +118,16 @@ BVP:AddCommand("help", function(self) self:Help() end, "help - this list")
 BVP:AddCommand("debug", function(self, rest)
   self.db.debug = self:ParseOnOff(rest, self.db.debug)
   self:Print("debug is now %s", tostring(self.db.debug))
-end, "debug [on|off] - toggle debug output")
+  -- lua errors are hidden by default on retail
+  if self.db.debug then
+    if C_CVar.GetCVarBool("scriptErrors") then
+      self:Print("lua errors display is already on")
+    else
+      C_CVar.SetCVar("scriptErrors", "1")
+      self:Print("lua errors display turned on (/console scriptErrors 0 to turn off)")
+    end
+  end
+end, "debug [on|off] - toggle debug output (and show lua errors)")
 BVP:AddCommand("version", function(self) self:Print("version %s by MooreaTv (moorea@ymail.com)", self.version) end,
                "version - show BetterVendorPrice version")
 BVP:AddCommand("bug", function(self)
