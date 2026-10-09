@@ -1,19 +1,20 @@
-## Interface: 30300
+## Interface: 16001
 ## Title: Better Vendor Price
-## Notes: Vendor Price display with stack price information (|cFF99E5FF/bvp config|r)
-## Notes: Legacy 3.3.5a edition
+## Notes: Vendor price per item and full stack in tooltips (|cFF99E5FF/bvp|r)
+## Notes: WoW Forever edition
 ## Author: MooreaTV moorea@ymail.com
 ## Version: @project-version@
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## SavedVariables: betterVendorPriceSaved
-## Globe: check-classic
-## X-OpenSource-License: LPGLv3
+## X-OpenSource-License: LGPLv3
 ## X-OpenSource-Releases: https://github.com/mooreatv/BetterVendorPrice/releases
 ## X-Curse-Project-ID: 332558
 ## X-WoWI-ID: 25078
 ## X-Wago-ID: rkGrpX6y
-MoLib\MoLib.lua
-MoLib\MoLibUI.lua
+## IconTexture: Interface\AddOns\BetterVendorPrice\BetterVendorPriceIcon.png
 BetterVendorPrice.lua
 locale\locale.xml
+Bags.lua
+Restack.lua
+Options.lua
