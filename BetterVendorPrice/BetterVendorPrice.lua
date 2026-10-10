@@ -154,7 +154,10 @@ function BVP:IsSellable(itemID)
   return sellable[itemID]
 end
 
-local function addMoney(tt, copper, suffix) SetTooltipMoney(tt, copper, "STATIC", L["Vendors for:"], suffix) end
+-- plain text, not SetTooltipMoney: in instance combat the money frame gets secret sizes and errors once we taint it
+local function addMoney(tt, copper, suffix)
+  tt:AddLine(L["Vendors for:"] .. " " .. C_CurrencyInfo.GetCoinTextureString(copper) .. suffix, 1, 1, 1)
+end
 
 local function onItemTooltip(tt, data)
   local self = BVP
