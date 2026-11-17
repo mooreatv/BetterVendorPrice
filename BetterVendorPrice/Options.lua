@@ -67,6 +67,13 @@ local function build()
     prev = cb
   end
 
+  local keep = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+  keep:SetSize(160, 22)
+  keep:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 4, -12)
+  keep:SetText(L["Kept items..."])
+  keep:SetScript("OnClick", function() BVP:ToggleKeepWindow() end)
+  tooltip(keep, L["Kept items..."], L["Items never suggested to throw away (/bvp keep list)."])
+
   BVP.category = Settings.RegisterCanvasLayoutCategory(panel, panel.name)
   Settings.RegisterAddOnCategory(BVP.category)
 end
