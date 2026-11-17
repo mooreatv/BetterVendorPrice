@@ -176,39 +176,6 @@ function BVP:UpdateBags()
   if self.freeSlots == 0 and wasFree ~= 0 and self.db.reportFull then self:CheckBags(true) end
 end
 
--- Items never suggested: the ones kept with /bvp keep (account wide), e.g. a cheap fishing pole you still need.
-function BVP:IsKept(itemID) return self.sv.keep[itemID] == true end
-
-local function itemLink(itemID) return select(2, C_Item.GetItemInfo(itemID)) or ("item:" .. itemID) end
-
-BVP:AddCommand("keep", function(self, rest)
-  if rest:lower() == "list" then
-    if not next(self.sv.keep) then
-      self:Print(L["No kept items."])
-      return
-    end
-    self:Print(L["Kept items (never suggested to throw away):"])
-    for id in pairs(self.sv.keep) do print("  " .. itemLink(id)) end
-    return
-  end
-  local id = tonumber(rest) or tonumber(rest:match("item:(%d+)"))
-  if rest == "" then
-    id = self.candidate and self.candidate.itemID
-    if not id then
-      self:Print(L["No cheapest slot to keep."])
-      return
-    end
-  elseif not id then
-    self:Print(L["usage: /bvp keep [item|list]"])
-    return
-  end
-  self.sv.keep[id] = not self.sv.keep[id] or nil
-  self:Print(self.sv.keep[id] and L["Keeping %s, it won't be suggested anymore."] or L["%s can be suggested again."],
-             itemLink(id))
-  self:UpdateBags()
-  if rest == "" then self:Report(false) end
-end, "keep [item|list] - never suggest that item (default: the cheapest slot) to throw away, again to undo")
-
 BVP:Listen("LOGIN", function(self)
   for _, frame in ipairs(bagFrames()) do hooksecurefunc(frame, "UpdateItems", refreshFrame) end
   self:On("BAG_UPDATE_DELAYED", self.UpdateBags)

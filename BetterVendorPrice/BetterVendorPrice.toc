@@ -16,5 +16,6 @@
 BetterVendorPrice.lua
 locale\locale.xml
 Bags.lua
+KeepList.lua
 Restack.lua
 Options.lua
