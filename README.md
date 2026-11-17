@@ -40,8 +40,9 @@ lines and AHDB the AH ones, no duplicates.
 
 - `/bvp cheapest`: restack and show the cheapest slot, anytime.
 - `/bvp restack`: merge partial stacks to free bag slots.
-- `/bvp keep`: never suggest the current cheapest item again; `/bvp keep <item>` for any item (again to undo),
-  `/bvp keep list` to see them; `/bvp sell <item>` to undo. Items by link, id or exact name.
+- `/bvp keep`: never suggest the current cheapest item again; `/bvp keep <item>` for any item,
+  `/bvp unkeep <item>` to undo (items by link, id or exact name). `/bvp keep list`: the kept items window, drop
+  items on it or Ctrl+Right click them in the bags to keep them, X to remove.
 - `/bvp config`: options (Options > AddOns > Better Vendor Price): single line tooltip or only with Shift held,
   highlight, chat message when the bags are full, auto restacking.
 - `/bvp` lists all commands.

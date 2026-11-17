@@ -176,67 +176,6 @@ function BVP:UpdateBags()
   if self.freeSlots == 0 and wasFree ~= 0 and self.db.reportFull then self:CheckBags(true) end
 end
 
--- Items never suggested: the ones kept with /bvp keep (account wide), e.g. a cheap fishing pole you still need.
-function BVP:IsKept(itemID) return self.sv.keep[itemID] == true end
-
-local function itemLink(itemID) return select(2, C_Item.GetItemInfo(itemID)) or ("item:" .. itemID) end
-
--- Item id from an id, a link or a name (exact, any case: kept items first, then any item the client knows).
-local function itemID(keep, arg)
-  local id = tonumber(arg) or tonumber(arg:match("item:(%d+)"))
-  if id then return id end
-  local name = arg:lower()
-  for kept in pairs(keep) do
-    local n = C_Item.GetItemInfo(kept)
-    if n and n:lower() == name then return kept end
-  end
-  return C_Item.GetItemInfoInstant(arg)
-end
-
-local function setKept(self, id, kept)
-  self.sv.keep[id] = kept or nil
-  self:Print(kept and L["Keeping %s, it won't be suggested anymore."] or L["%s can be suggested again."], itemLink(id))
-  self:UpdateBags()
-end
-
-BVP:AddCommand("keep", function(self, rest)
-  if rest:lower() == "list" then
-    if not next(self.sv.keep) then
-      self:Print(L["No kept items."])
-      return
-    end
-    self:Print(L["Kept items (never suggested to throw away):"])
-    for id in pairs(self.sv.keep) do print("  " .. itemLink(id) .. " (" .. id .. ")") end
-    return
-  end
-  if rest == "" then
-    local id = self.candidate and self.candidate.itemID
-    if not id then
-      self:Print(L["No cheapest slot to keep."])
-      return
-    end
-    setKept(self, id, true)
-    self:Report(false)
-    return
-  end
-  local id = itemID(self.sv.keep, rest)
-  if not id then
-    self:Print(L["Unknown item %s, use its link or id."], rest)
-    return
-  end
-  setKept(self, id, not self.sv.keep[id])
-end, "keep [item|list] - never suggest that item (id, link or name; default: the cheapest slot) to throw away, " ..
-                 "again to undo")
-
-BVP:AddCommand("sell", function(self, rest)
-  local id = rest ~= "" and itemID(self.sv.keep, rest)
-  if not id or not self.sv.keep[id] then
-    self:Print(L["Not a kept item: %s (see /bvp keep list)"], rest)
-    return
-  end
-  setKept(self, id, false)
-end, "sell item - undo keep: the item (id, link or name) can be suggested to throw away again")
-
 BVP:Listen("LOGIN", function(self)
   for _, frame in ipairs(bagFrames()) do hooksecurefunc(frame, "UpdateItems", refreshFrame) end
   self:On("BAG_UPDATE_DELAYED", self.UpdateBags)
